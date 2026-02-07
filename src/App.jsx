@@ -210,7 +210,7 @@ function getStyles(mobile) {
     note: { fontSize: 14, color: "#8a7a6a", textAlign: "center", margin: "20px 0 28px" },
     primaryBtn: { display: "block", margin: "0 auto 24px", background: "#8b6b4e", color: "#fff", border: "none", borderRadius: 12, padding: mobile ? "14px 24px" : "16px 40px", fontSize: 16, fontFamily: "'Lora', Georgia, serif", cursor: "pointer", boxShadow: "0 3px 12px rgba(139, 107, 78, 0.2)", ...(mobile ? { width: "100%", boxSizing: "border-box" } : {}) },
     safetyNote: { fontSize: 12, color: "#a0907e", lineHeight: 1.6, textAlign: "center" },
-    progressRow: { display: "flex", alignItems: "center", gap: 12, marginBottom: 32 },
+    progressRow: { display: "flex", alignItems: "center", gap: 12, marginBottom: 32, ...(mobile ? { marginTop: 20 } : {}) },
     progressTrack: { flex: 1, height: 6, background: "#ede4d8", borderRadius: 3, overflow: "hidden" },
     progressFill: { height: "100%", background: "#b8907a", borderRadius: 3, transition: "width 0.4s ease" },
     progressLabel: { fontSize: 13, color: "#a09080", fontFamily: "system-ui, sans-serif", minWidth: 50, textAlign: "right" },
