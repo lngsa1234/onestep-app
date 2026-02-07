@@ -2,12 +2,15 @@ import { useState, useEffect } from "react";
 import { fetchAllResponses } from "../lib/supabase";
 import { categoryKeys, translations, resultColors, getResultKey } from "../lib/data";
 import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer, PieChart, Pie, Cell, Legend } from "recharts";
+import { useIsMobile } from "../lib/useIsMobile";
 
 const catLabels = translations.en.categories;
 
 export default function Dashboard() {
   const [responses, setResponses] = useState([]);
   const [loading, setLoading] = useState(true);
+  const isMobile = useIsMobile();
+  const s = getStyles(isMobile);
 
   useEffect(() => {
     fetchAllResponses().then((data) => {
@@ -124,7 +127,7 @@ export default function Dashboard() {
         {/* Concern Level Distribution */}
         <div style={s.section}>
           <h2 style={s.sectionTitle}>Concern Level Distribution</h2>
-          <div style={{ width: "100%", height: 300 }}>
+          <div style={{ width: "100%", height: isMobile ? 220 : 300 }}>
             <ResponsiveContainer>
               <PieChart>
                 <Pie data={tierData} cx="50%" cy="50%" outerRadius={100} innerRadius={50} dataKey="value" label={({ name, percent }) => `${name} ${(percent * 100).toFixed(0)}%`}>
@@ -142,7 +145,7 @@ export default function Dashboard() {
         {/* Average Category Scores */}
         <div style={s.section}>
           <h2 style={s.sectionTitle}>Average Scores by Category</h2>
-          <div style={{ width: "100%", height: 400 }}>
+          <div style={{ width: "100%", height: isMobile ? 300 : 400 }}>
             <ResponsiveContainer>
               <BarChart data={catChartData} layout="vertical" margin={{ left: 20, right: 20, top: 10, bottom: 10 }}>
                 <CartesianGrid strokeDasharray="3 3" stroke="#ede4d8" />
@@ -166,7 +169,7 @@ export default function Dashboard() {
         {timeData.length > 1 && (
           <div style={s.section}>
             <h2 style={s.sectionTitle}>Responses Over Time (Last 30 Days)</h2>
-            <div style={{ width: "100%", height: 250 }}>
+            <div style={{ width: "100%", height: isMobile ? 200 : 250 }}>
               <ResponsiveContainer>
                 <BarChart data={timeData} margin={{ left: 10, right: 10, top: 10, bottom: 10 }}>
                   <CartesianGrid strokeDasharray="3 3" stroke="#ede4d8" />
@@ -222,19 +225,21 @@ export default function Dashboard() {
   );
 }
 
-const s = {
-  page: { minHeight: "100vh", background: "linear-gradient(160deg, #f5efe8 0%, #ede4d8 40%, #e8ddd0 100%)", display: "flex", justifyContent: "center", padding: "32px 24px", fontFamily: "'Lora', Georgia, serif" },
-  card: { maxWidth: 900, width: "100%", background: "#fffcf8", borderRadius: 20, padding: "40px 36px", boxShadow: "0 8px 40px rgba(120, 90, 60, 0.08)" },
-  heading: { fontSize: 26, fontWeight: 600, color: "#5a4a3a", margin: 0 },
-  link: { fontSize: 14, color: "#8b6b4e", textDecoration: "none", fontFamily: "system-ui, sans-serif" },
-  statsRow: { display: "flex", gap: 16, marginBottom: 32, flexWrap: "wrap" },
-  statCard: { flex: "1 1 150px", background: "#faf5ee", borderRadius: 14, padding: "20px 24px", textAlign: "center", display: "flex", flexDirection: "column", gap: 6 },
-  statNumber: { fontSize: 28, fontWeight: 600, color: "#5a4a3a" },
-  statLabel: { fontSize: 13, color: "#8a7a6a", fontFamily: "system-ui, sans-serif" },
-  section: { marginBottom: 36 },
-  sectionTitle: { fontSize: 18, fontWeight: 500, color: "#5a4a3a", marginBottom: 16 },
-  table: { width: "100%", borderCollapse: "collapse", fontFamily: "system-ui, sans-serif", fontSize: 13 },
-  th: { textAlign: "left", padding: "10px 12px", borderBottom: "2px solid #d4c4b0", color: "#6a5a4a", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.5px" },
-  td: { padding: "10px 12px", color: "#5a4a3a" },
-  badge: { padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 600 },
-};
+function getStyles(mobile) {
+  return {
+    page: { minHeight: "100vh", background: "linear-gradient(160deg, #f5efe8 0%, #ede4d8 40%, #e8ddd0 100%)", display: "flex", justifyContent: "center", padding: mobile ? "16px 8px" : "32px 24px", fontFamily: "'Lora', Georgia, serif" },
+    card: { maxWidth: 900, width: "100%", background: "#fffcf8", borderRadius: 20, padding: mobile ? "24px 16px" : "40px 36px", boxShadow: "0 8px 40px rgba(120, 90, 60, 0.08)" },
+    heading: { fontSize: mobile ? 20 : 26, fontWeight: 600, color: "#5a4a3a", margin: 0 },
+    link: { fontSize: 14, color: "#8b6b4e", textDecoration: "none", fontFamily: "system-ui, sans-serif" },
+    statsRow: { display: "flex", gap: 16, marginBottom: 32, flexWrap: "wrap" },
+    statCard: { flex: "1 1 150px", background: "#faf5ee", borderRadius: 14, padding: "20px 24px", textAlign: "center", display: "flex", flexDirection: "column", gap: 6 },
+    statNumber: { fontSize: mobile ? 22 : 28, fontWeight: 600, color: "#5a4a3a" },
+    statLabel: { fontSize: 13, color: "#8a7a6a", fontFamily: "system-ui, sans-serif" },
+    section: { marginBottom: 36 },
+    sectionTitle: { fontSize: 18, fontWeight: 500, color: "#5a4a3a", marginBottom: 16 },
+    table: { width: "100%", borderCollapse: "collapse", fontFamily: "system-ui, sans-serif", fontSize: 13 },
+    th: { textAlign: "left", padding: "10px 12px", borderBottom: "2px solid #d4c4b0", color: "#6a5a4a", fontSize: 12, textTransform: "uppercase", letterSpacing: "0.5px" },
+    td: { padding: "10px 12px", color: "#5a4a3a" },
+    badge: { padding: "3px 10px", borderRadius: 8, fontSize: 11, fontWeight: 600 },
+  };
+}

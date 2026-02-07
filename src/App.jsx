@@ -4,6 +4,7 @@ import {
   questionsData, freqColors, resultColors,
   getResultKey, getCategoryScores, translations,
 } from "./lib/data";
+import { useIsMobile } from "./lib/useIsMobile";
 
 export default function App() {
   const [lang, setLang] = useState("en");
@@ -13,6 +14,8 @@ export default function App() {
   const [fadeIn, setFadeIn] = useState(true);
   const [expandedCat, setExpandedCat] = useState(null);
   const [saved, setSaved] = useState(false);
+  const isMobile = useIsMobile();
+  const s = getStyles(isMobile);
 
   const t = translations[lang];
   const toggleLang = () => setLang(lang === "en" ? "zh" : "en");
@@ -151,13 +154,13 @@ export default function App() {
         <h1 style={{ ...s.title, marginBottom: 8 }}>{t.resultsTitle}</h1>
         <div style={s.divider} />
 
-        <div style={{ padding: "24px 28px", borderRadius: 14, margin: "24px 0", backgroundColor: resultColor + "18", borderLeft: `4px solid ${resultColor}` }}>
+        <div style={{ padding: isMobile ? "16px 18px" : "24px 28px", borderRadius: 14, margin: "24px 0", backgroundColor: resultColor + "18", borderLeft: `4px solid ${resultColor}` }}>
           <span style={{ fontSize: 12, fontFamily: "system-ui, sans-serif", textTransform: "uppercase", letterSpacing: "1.5px", fontWeight: 700, color: resultColor }}>{result.level}</span>
           <h2 style={{ fontSize: 20, color: "#4a3a2e", margin: "10px 0 12px", fontWeight: 500 }}>{result.heading}</h2>
           <p style={{ fontSize: 15, color: "#5a4a3a", lineHeight: 1.7 }}>{result.message}</p>
         </div>
 
-        <div style={{ background: "#faf5ee", borderRadius: 14, padding: "20px 24px", margin: "16px 0 32px" }}>
+        <div style={{ background: "#faf5ee", borderRadius: 14, padding: isMobile ? "16px 18px" : "20px 24px", margin: "16px 0 32px" }}>
           <p style={{ fontSize: 14, fontWeight: 600, color: "#8b6b4e", marginBottom: 8 }}>{t.suggestLabel}</p>
           <p style={{ fontSize: 14, color: "#6a5a4a", lineHeight: 1.7 }}>{result.suggestion}</p>
         </div>
@@ -194,29 +197,31 @@ export default function App() {
   );
 }
 
-const s = {
-  page: { minHeight: "100vh", background: "linear-gradient(160deg, #f5efe8 0%, #ede4d8 40%, #e8ddd0 100%)", display: "flex", alignItems: "center", justifyContent: "center", padding: 24, fontFamily: "'Lora', Georgia, serif" },
-  card: { position: "relative", maxWidth: 580, width: "100%", background: "#fffcf8", borderRadius: 20, padding: "48px 40px", boxShadow: "0 8px 40px rgba(120, 90, 60, 0.08)" },
-  langBtn: { position: "absolute", top: 16, right: 20, background: "none", border: "1.5px solid #d4c4b0", borderRadius: 8, padding: "6px 14px", fontSize: 13, color: "#8a7a6a", fontFamily: "system-ui, sans-serif", cursor: "pointer" },
-  logoMark: { fontSize: 40, textAlign: "center", color: "#b8907a", marginBottom: 8 },
-  title: { fontSize: 28, fontWeight: 600, color: "#5a4a3a", textAlign: "center", marginBottom: 8, letterSpacing: "-0.3px" },
-  subtitle: { fontSize: 16, color: "#8a7a6a", textAlign: "center", fontStyle: "italic", marginBottom: 24 },
-  divider: { width: 60, height: 2, background: "#d4c4b0", margin: "0 auto 24px", borderRadius: 1 },
-  bodyText: { fontSize: 15, lineHeight: 1.7, color: "#6a5a4a", marginBottom: 16, textAlign: "left" },
-  note: { fontSize: 14, color: "#8a7a6a", textAlign: "center", margin: "20px 0 28px" },
-  primaryBtn: { display: "block", margin: "0 auto 24px", background: "#8b6b4e", color: "#fff", border: "none", borderRadius: 12, padding: "16px 40px", fontSize: 16, fontFamily: "'Lora', Georgia, serif", cursor: "pointer", boxShadow: "0 3px 12px rgba(139, 107, 78, 0.2)" },
-  safetyNote: { fontSize: 12, color: "#a0907e", lineHeight: 1.6, textAlign: "center" },
-  progressRow: { display: "flex", alignItems: "center", gap: 12, marginBottom: 32 },
-  progressTrack: { flex: 1, height: 6, background: "#ede4d8", borderRadius: 3, overflow: "hidden" },
-  progressFill: { height: "100%", background: "#b8907a", borderRadius: 3, transition: "width 0.4s ease" },
-  progressLabel: { fontSize: 13, color: "#a09080", fontFamily: "system-ui, sans-serif", minWidth: 50, textAlign: "right" },
-  questionArea: { minHeight: 300 },
-  categoryTag: { display: "inline-block", fontSize: 11, fontFamily: "system-ui, sans-serif", textTransform: "uppercase", letterSpacing: "1.2px", color: "#a09080", background: "#f0e8dd", padding: "5px 12px", borderRadius: 20, marginBottom: 20 },
-  questionText: { fontSize: 20, fontWeight: 500, color: "#4a3a2e", lineHeight: 1.5, marginBottom: 32 },
-  options: { display: "flex", flexDirection: "column", gap: 10 },
-  optionBtn: { display: "block", width: "100%", padding: "14px 20px", fontSize: 15, fontFamily: "'Lora', Georgia, serif", color: "#5a4a3a", background: "transparent", border: "1.5px solid #d9cfc4", borderRadius: 12, cursor: "pointer", textAlign: "left", transition: "all 0.15s ease" },
-  navRow: { display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 24 },
-  backBtn: { background: "none", border: "none", color: "#a09080", fontSize: 14, fontFamily: "'Lora', Georgia, serif", cursor: "pointer", padding: "8px 0" },
-  privacyNote: { fontSize: 12, color: "#b8a898", fontStyle: "italic", margin: 0 },
-  outlineBtn: { display: "block", margin: "0 auto", background: "transparent", color: "#8b6b4e", border: "1.5px solid #8b6b4e", borderRadius: 12, padding: "12px 32px", fontSize: 15, fontFamily: "'Lora', Georgia, serif", cursor: "pointer" },
-};
+function getStyles(mobile) {
+  return {
+    page: { minHeight: "100vh", background: "linear-gradient(160deg, #f5efe8 0%, #ede4d8 40%, #e8ddd0 100%)", display: "flex", alignItems: "center", justifyContent: "center", padding: mobile ? 12 : 24, fontFamily: "'Lora', Georgia, serif" },
+    card: { position: "relative", maxWidth: 580, width: "100%", background: "#fffcf8", borderRadius: 20, padding: mobile ? "32px 20px" : "48px 40px", boxShadow: "0 8px 40px rgba(120, 90, 60, 0.08)" },
+    langBtn: { position: "absolute", top: 16, right: 20, background: "none", border: "1.5px solid #d4c4b0", borderRadius: 8, padding: "6px 14px", fontSize: 13, color: "#8a7a6a", fontFamily: "system-ui, sans-serif", cursor: "pointer" },
+    logoMark: { fontSize: mobile ? 32 : 40, textAlign: "center", color: "#b8907a", marginBottom: 8 },
+    title: { fontSize: mobile ? 22 : 28, fontWeight: 600, color: "#5a4a3a", textAlign: "center", marginBottom: 8, letterSpacing: "-0.3px" },
+    subtitle: { fontSize: mobile ? 14 : 16, color: "#8a7a6a", textAlign: "center", fontStyle: "italic", marginBottom: mobile ? 16 : 24 },
+    divider: { width: 60, height: 2, background: "#d4c4b0", margin: "0 auto 24px", borderRadius: 1 },
+    bodyText: { fontSize: mobile ? 14 : 15, lineHeight: 1.7, color: "#6a5a4a", marginBottom: 16, textAlign: "left" },
+    note: { fontSize: 14, color: "#8a7a6a", textAlign: "center", margin: "20px 0 28px" },
+    primaryBtn: { display: "block", margin: "0 auto 24px", background: "#8b6b4e", color: "#fff", border: "none", borderRadius: 12, padding: mobile ? "14px 24px" : "16px 40px", fontSize: 16, fontFamily: "'Lora', Georgia, serif", cursor: "pointer", boxShadow: "0 3px 12px rgba(139, 107, 78, 0.2)", ...(mobile ? { width: "100%", boxSizing: "border-box" } : {}) },
+    safetyNote: { fontSize: 12, color: "#a0907e", lineHeight: 1.6, textAlign: "center" },
+    progressRow: { display: "flex", alignItems: "center", gap: 12, marginBottom: 32 },
+    progressTrack: { flex: 1, height: 6, background: "#ede4d8", borderRadius: 3, overflow: "hidden" },
+    progressFill: { height: "100%", background: "#b8907a", borderRadius: 3, transition: "width 0.4s ease" },
+    progressLabel: { fontSize: 13, color: "#a09080", fontFamily: "system-ui, sans-serif", minWidth: 50, textAlign: "right" },
+    questionArea: { minHeight: mobile ? 0 : 300 },
+    categoryTag: { display: "inline-block", fontSize: 11, fontFamily: "system-ui, sans-serif", textTransform: "uppercase", letterSpacing: "1.2px", color: "#a09080", background: "#f0e8dd", padding: "5px 12px", borderRadius: 20, marginBottom: 20 },
+    questionText: { fontSize: mobile ? 17 : 20, fontWeight: 500, color: "#4a3a2e", lineHeight: 1.5, marginBottom: 32 },
+    options: { display: "flex", flexDirection: "column", gap: 10 },
+    optionBtn: { display: "block", width: "100%", padding: mobile ? "12px 16px" : "14px 20px", fontSize: 15, fontFamily: "'Lora', Georgia, serif", color: "#5a4a3a", background: "transparent", border: "1.5px solid #d9cfc4", borderRadius: 12, cursor: "pointer", textAlign: "left", transition: "all 0.15s ease" },
+    navRow: { display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 24 },
+    backBtn: { background: "none", border: "none", color: "#a09080", fontSize: 14, fontFamily: "'Lora', Georgia, serif", cursor: "pointer", padding: "8px 0" },
+    privacyNote: { fontSize: 12, color: "#b8a898", fontStyle: "italic", margin: 0 },
+    outlineBtn: { display: "block", margin: "0 auto", background: "transparent", color: "#8b6b4e", border: "1.5px solid #8b6b4e", borderRadius: 12, padding: "12px 32px", fontSize: 15, fontFamily: "'Lora', Georgia, serif", cursor: "pointer" },
+  };
+}
