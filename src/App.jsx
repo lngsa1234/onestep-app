@@ -1,11 +1,9 @@
-import { useState, useEffect } from "react";
-import { saveResponse, fetchResponseCount } from "./lib/supabase";
+import { useState } from "react";
+import { saveResponse } from "./lib/supabase";
 import {
   questionsData, freqColors, resultColors,
   getResultKey, getCategoryScores, translations,
 } from "./lib/data";
-
-const SEED_COUNT = 500; // Starting base number
 
 export default function App() {
   const [lang, setLang] = useState("en");
@@ -15,13 +13,6 @@ export default function App() {
   const [fadeIn, setFadeIn] = useState(true);
   const [expandedCat, setExpandedCat] = useState(null);
   const [saved, setSaved] = useState(false);
-  const [participantCount, setParticipantCount] = useState(SEED_COUNT);
-
-  useEffect(() => {
-    fetchResponseCount().then((count) => {
-      setParticipantCount(SEED_COUNT + count);
-    });
-  }, []);
 
   const t = translations[lang];
   const toggleLang = () => setLang(lang === "en" ? "zh" : "en");
@@ -97,10 +88,6 @@ export default function App() {
           <p style={s.bodyText} dangerouslySetInnerHTML={{ __html: t.intro1 }} />
           <p style={s.bodyText} dangerouslySetInnerHTML={{ __html: t.intro2 }} />
           <p style={s.note}>{t.timeNote}</p>
-          <div style={s.participantRow}>
-            <span style={s.participantNumber}>{participantCount.toLocaleString()}+</span>
-            <span style={s.participantLabel}>{t.participantText}</span>
-          </div>
           <button style={s.primaryBtn} onClick={() => setScreen("assessment")}>{t.startBtn}</button>
           <p style={s.safetyNote}>{t.safetyNote} <strong>{t.safetyPhone}</strong></p>
         </div>
