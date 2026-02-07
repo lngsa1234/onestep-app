@@ -199,7 +199,7 @@ export default function App() {
 
 function getStyles(mobile) {
   return {
-    page: { minHeight: "100vh", background: "linear-gradient(160deg, #f5efe8 0%, #ede4d8 40%, #e8ddd0 100%)", display: "flex", alignItems: "center", justifyContent: "center", padding: mobile ? 12 : 24, fontFamily: "'Lora', Georgia, serif" },
+    page: { minHeight: "100vh", background: "linear-gradient(160deg, #f5efe8 0%, #ede4d8 40%, #e8ddd0 100%)", display: "flex", alignItems: mobile ? "flex-start" : "center", justifyContent: "center", padding: mobile ? 12 : 24, fontFamily: "'Lora', Georgia, serif" },
     card: { position: "relative", maxWidth: 580, width: "100%", background: "#fffcf8", borderRadius: 20, padding: mobile ? "32px 20px" : "48px 40px", boxShadow: "0 8px 40px rgba(120, 90, 60, 0.08)" },
     langBtn: { position: "absolute", top: 16, right: 20, background: "none", border: "1.5px solid #d4c4b0", borderRadius: 8, padding: "6px 14px", fontSize: 13, color: "#8a7a6a", fontFamily: "system-ui, sans-serif", cursor: "pointer" },
     logoMark: { fontSize: mobile ? 32 : 40, textAlign: "center", color: "#b8907a", marginBottom: 8 },
@@ -216,7 +216,7 @@ function getStyles(mobile) {
     progressLabel: { fontSize: 13, color: "#a09080", fontFamily: "system-ui, sans-serif", minWidth: 50, textAlign: "right" },
     questionArea: { minHeight: mobile ? 0 : 300 },
     categoryTag: { display: "inline-block", fontSize: 11, fontFamily: "system-ui, sans-serif", textTransform: "uppercase", letterSpacing: "1.2px", color: "#a09080", background: "#f0e8dd", padding: "5px 12px", borderRadius: 20, marginBottom: 20 },
-    questionText: { fontSize: mobile ? 17 : 20, fontWeight: 500, color: "#4a3a2e", lineHeight: 1.5, marginBottom: 32 },
+    questionText: { fontSize: mobile ? 17 : 20, fontWeight: 500, color: "#4a3a2e", lineHeight: 1.5, marginBottom: mobile ? 20 : 32 },
     options: { display: "flex", flexDirection: "column", gap: 10 },
     optionBtn: { display: "block", width: "100%", padding: mobile ? "12px 16px" : "14px 20px", fontSize: 15, fontFamily: "'Lora', Georgia, serif", color: "#5a4a3a", background: "transparent", border: "1.5px solid #d9cfc4", borderRadius: 12, cursor: "pointer", textAlign: "left", transition: "all 0.15s ease" },
     navRow: { display: "flex", alignItems: "center", justifyContent: "space-between", marginTop: 24 },
